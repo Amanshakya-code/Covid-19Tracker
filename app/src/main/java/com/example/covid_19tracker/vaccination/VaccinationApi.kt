@@ -16,6 +16,6 @@ interface VaccinationApi {
         @Query("date")
         date:String
     ):VaccineCentre
-  /*  @GET("https://api.covid19india.org/data.json")
-    suspend fun getStateData():R*/
+    @GET("https://api.covid19india.org/data.json")
+    suspend fun getStateData():com.example.covid_19tracker.Response
 }
