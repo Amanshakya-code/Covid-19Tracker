@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/graphScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".barGraphActivity">
+
+        <TextView
+            android:id="@+id/titletxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Confirm"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <com.github.mikephil.charting.charts.HorizontalBarChart
+            android:id="@+id/barchart"
+            android:layout_width="match_parent"
+            android:layout_height="500dp" />
+
+        <TextView
+            android:id="@+id/division"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:text="90"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="20dp"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="20dp">
+
+            <TextView
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:text="AN -> Andaman and Nicobar islands\nAP -> Andhra Pradesh\nAR -> Arunachal Pradesh\nAS -> Assam\nBR -> Bihar\nCH -> Chandigarh\nDN -> Dadra and nagar havelli and daman and diu\nDL -> Delhi\nGA -> Goa\nGJ -> Gujarat\nHR -> Haryana\nHP -> Himachal Pradesh\nJK -> Jammu And Kashmir\nJH -> Jharkhand\nKA -> Karnataka\nKL -> Kerala\nMP -> Madhya Pradesh\nMH -> Maharashtra\nOR -> odisha\nPB -> Punjab\nRJ -> Rajasthan\nSK -> Sikkim\nUP -> Uttar Pradesh"
+                android:textSize="20sp" />
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+</ScrollView>
