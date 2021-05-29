@@ -7,12 +7,17 @@ import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.covid_19tracker.R
 import com.example.covid_19tracker.adapter.VaccineCenterAdapter
 import com.example.covid_19tracker.adapter.postAdapter
 import com.example.covid_19tracker.model.CentersItem
+import com.example.covid_19tracker.mvvm.Viewmodel
+import com.example.covid_19tracker.mvvm.ViewmodelProviderFactory
+import com.example.covid_19tracker.mvvm.repository
 import kotlinx.android.synthetic.main.activity_publicpost.*
+import kotlinx.android.synthetic.main.activity_status.*
 import kotlinx.android.synthetic.main.activity_vaccine_centre.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +29,7 @@ import kotlin.collections.ArrayList
 class VaccineCentreActivity : AppCompatActivity() {
     lateinit var pincode:String
     lateinit var date:String
-
+    lateinit var viewModel: Viewmodel
     lateinit var myCalendar: Calendar
     private lateinit var centerList:ArrayList<CentersItem>
     private  lateinit var adpater:VaccineCenterAdapter
@@ -33,6 +38,10 @@ class VaccineCentreActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vaccine_centre)
+
+        val repository = repository()
+        val viewModelFactory = ViewmodelProviderFactory(repository)
+        viewModel = ViewModelProvider(this,viewModelFactory).get(Viewmodel::class.java)
         searchbtncentre.setOnClickListener {
             pincode = pincodeedt.text.toString()
 
@@ -64,30 +73,23 @@ class VaccineCentreActivity : AppCompatActivity() {
         }
         centreRecylerView.layoutManager = LinearLayoutManager(this)
         centerList = arrayListOf()
-    }
-
-    private fun fetchdata(pincode:String,date:String)  = CoroutineScope(Dispatchers.IO).launch  {
-
-        try{
-            val response = RetrofitVaccineInstance.vaccineApi.getVaccineCentre(pincode,date)
-            val responseList = response.centers
-            Log.i("responseVaccine","${response.centers}")
-            launch(Dispatchers.Main){
-                if(responseList!=null){
-                    centerdoctorImage.visibility = View.GONE
-                    centerPb.visibility = View.GONE
-                    centerList.clear()
-                    for(centerItem in responseList) {
-                        centerList.add(centerItem)
-                    }
-                    adpater = VaccineCenterAdapter(centerList)
-                    centreRecylerView.adapter = adpater
+        viewModel.VaccineData.observe(this, androidx.lifecycle.Observer {
+            val list = it.centers
+            if(list!=null){
+                centerdoctorImage.visibility = View.GONE
+                centerPb.visibility = View.GONE
+                centerList.clear()
+                for(centerItem in list) {
+                    centerList.add(centerItem)
                 }
+                adpater = VaccineCenterAdapter(centerList)
+                centreRecylerView.adapter = adpater
             }
 
-        }
-        catch (e:Exception){
-            Log.i("erroeorer",e.toString())
-        }
+        })
+    }
+
+    private fun fetchdata(pincode:String,date:String)  {
+        viewModel.getVaccineData(pincode,date)
     }
 }
