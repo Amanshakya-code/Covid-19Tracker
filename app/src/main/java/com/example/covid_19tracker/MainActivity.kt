@@ -6,12 +6,17 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.example.covid_19tracker.post.mypostActivity
-import com.example.covid_19tracker.post.publicpost
+import com.example.covid_19tracker.notification.RetrofitInstance
+import com.example.covid_19tracker.vaccination.RetrofitVaccineInstance
 import com.example.covid_19tracker.vaccination.VaccineCentreActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("ResourceAsColor")

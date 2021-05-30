@@ -1,4 +1,4 @@
-package com.example.covid_19tracker.post
+package com.example.covid_19tracker
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import com.example.covid_19tracker.R
-import com.example.covid_19tracker.detail
 import com.example.covid_19tracker.model.UserPost
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.android.synthetic.main.activity_detail.view.*
 import kotlinx.android.synthetic.main.activity_mypost.*
 import java.lang.Exception
 import java.text.SimpleDateFormat
