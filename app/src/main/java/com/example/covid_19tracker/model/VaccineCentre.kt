@@ -17,7 +17,8 @@ data class CentersItem(
 	val name: String,
 	val from: String,
 	val to: String,
-	val lat: Int? = null
+	val lat: Int? = null,
+	val long:Int? = null
 )
 
 data class SessionsItem(
