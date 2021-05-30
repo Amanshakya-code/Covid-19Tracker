@@ -10,9 +10,8 @@ import android.media.RingtoneManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import com.example.covid_19tracker.MainActivity
 import com.example.covid_19tracker.R
-import com.example.covid_19tracker.publicpost
+import com.example.covid_19tracker.post.publicpost
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlin.random.Random

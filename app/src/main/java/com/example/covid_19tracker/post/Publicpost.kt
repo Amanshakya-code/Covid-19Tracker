@@ -1,14 +1,13 @@
-package com.example.covid_19tracker
+package com.example.covid_19tracker.post
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.covid_19tracker.R
 import com.example.covid_19tracker.adapter.postAdapter
 import com.example.covid_19tracker.model.UserPost
 import com.google.firebase.firestore.*
-import com.google.firebase.firestore.core.View
 import kotlinx.android.synthetic.main.activity_publicpost.*
 
 class publicpost : AppCompatActivity() {

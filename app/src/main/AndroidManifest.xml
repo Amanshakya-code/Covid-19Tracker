@@ -41,9 +41,9 @@
         </service>
 
         <activity
-            android:name=".publicpost"
+            android:name=".post.publicpost"
             android:launchMode="singleTop" />
-        <activity android:name=".mypostActivity" />
+        <activity android:name=".post.mypostActivity" />
         <activity android:name=".authentication.OtpActivity" />
         <activity android:name=".authentication.LoginActivity" />
         <activity android:name=".detail" />
