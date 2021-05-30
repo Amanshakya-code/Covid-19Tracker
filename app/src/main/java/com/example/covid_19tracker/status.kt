@@ -29,9 +29,8 @@ class status : AppCompatActivity() {
         setContentView(R.layout.activity_status)
         //list.addHeaderView(LayoutInflater.from(this).inflate(R.layout.list_header,list,false))
         val repository = repository()
-        val viewModelFactory = ViewmodelProviderFactory(repository)
+        val viewModelFactory = ViewmodelProviderFactory(application,repository)
         viewModel = ViewModelProvider(this,viewModelFactory).get(Viewmodel::class.java)
-        if(hasInternetConnection()){
         viewModel.StateData.observe(this, androidx.lifecycle.Observer {
             val list = it.statewise
             listofstatebtn.isEnabled = true
@@ -39,11 +38,6 @@ class status : AppCompatActivity() {
             bindgraph(list.subList(1, list.size))
 
         })
-        }
-        else
-        {
-            Toast.makeText(this, "No internet Connection", Toast.LENGTH_LONG).show()
-        }
         listofstatebtn.setOnClickListener {
             val intent = Intent(this, ListOfState::class.java)
             startActivity(intent)
@@ -134,31 +128,5 @@ class status : AppCompatActivity() {
                 SimpleDateFormat("dd/MM/yy, hh:mm a").format(past).toString()
             }
         }
-    }
-    private fun hasInternetConnection():Boolean {
-        val connectivityManager = getApplication().getSystemService(
-            Context.CONNECTIVITY_SERVICE
-        ) as ConnectivityManager
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            val activeNetwork = connectivityManager.activeNetwork?: return false
-            val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork)?:return false
-            return when{
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)->true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)->true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)->true
-                else -> false
-            }
-        }else{
-            connectivityManager.activeNetworkInfo?.run {
-                return when(type){
-                    ConnectivityManager.TYPE_WIFI -> true
-                    ConnectivityManager.TYPE_MOBILE -> true
-                    ConnectivityManager.TYPE_ETHERNET -> true
-                    else -> false
-                }
-            }
-        }
-        return false
     }
 }

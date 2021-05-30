@@ -45,7 +45,7 @@ class detail : AppCompatActivity() {
             post.isEnabled = true
         else {
             post.isEnabled = false
-            Toast.makeText(this,"No Intenet Connection",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"No Internet Connection",Toast.LENGTH_LONG).show()
         }
         post.setOnClickListener {
             val date = Date()

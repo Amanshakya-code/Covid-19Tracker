@@ -40,7 +40,7 @@ class VaccineCentreActivity : AppCompatActivity() {
         setContentView(R.layout.activity_vaccine_centre)
 
         val repository = repository()
-        val viewModelFactory = ViewmodelProviderFactory(repository)
+        val viewModelFactory = ViewmodelProviderFactory(application,repository)
         viewModel = ViewModelProvider(this,viewModelFactory).get(Viewmodel::class.java)
         searchbtncentre.setOnClickListener {
             pincode = pincodeedt.text.toString()
