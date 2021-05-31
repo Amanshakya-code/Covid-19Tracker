@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.covid_19tracker.model.UserPost
+import com.example.covid_19tracker.notification.Constant.Companion.subscribenotification
 import com.example.covid_19tracker.notification.PushNotification
 import com.example.covid_19tracker.notification.RetrofitInstance
 import com.example.covid_19tracker.notification.notificationData
@@ -40,7 +41,19 @@ class detail : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
+        try {
+          val status = update("status")
+            if(status == "On")
+            subscribenotification = "/topics/covidtopic"
+            else {
+                subscribenotification = "noneedtosend"
+            }
+        }
+        catch (e:Exception){
+
+        }
+        Log.i("notificationstatus","$subscribenotification")
+        FirebaseMessaging.getInstance().subscribeToTopic(subscribenotification)
         if(hasInternetConnection())
             post.isEnabled = true
         else {
@@ -118,5 +131,9 @@ class detail : AppCompatActivity() {
         catch (e:Exception){
             Log.i("reerror",e.toString())
         }
+    }
+    private fun update(key: String): String? {
+        val sp = getSharedPreferences("mypref", Context.MODE_PRIVATE)
+        return sp.getString(key, "On")
     }
 }

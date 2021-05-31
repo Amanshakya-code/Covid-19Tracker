@@ -2,21 +2,20 @@ package com.example.covid_19tracker
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.covid_19tracker.notification.RetrofitInstance
-import com.example.covid_19tracker.vaccination.RetrofitVaccineInstance
 import com.example.covid_19tracker.vaccination.VaccineCentreActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("ResourceAsColor")
@@ -78,14 +77,43 @@ class MainActivity : AppCompatActivity() {
         vaccineCenter.setOnClickListener {
             startActivity(Intent(this,VaccineCentreActivity::class.java))
         }
+
+        notification.setOnClickListener {
+            val array = arrayOf("On","Off")
+           val alertDialog = AlertDialog.Builder(this)
+            alertDialog.setTitle("Notification Status")
+            alertDialog.setSingleChoiceItems(array,0,object : DialogInterface.OnClickListener{
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    when(array[which]){
+                        "On" -> {
+                            NotificationStatus(array[which])
+                            Toast.makeText(application,"on",Toast.LENGTH_SHORT).show()
+                        }
+                        "Off" ->{
+                            NotificationStatus(array[which])
+                            Toast.makeText(application,"off",Toast.LENGTH_SHORT).show()}
+                    }
+                }
+            })
+            alertDialog.setPositiveButton("ok",){dialogInterFace,which->
+            }.create()
+            val alert = alertDialog.create()
+            alert.show()
+        }
     }
 
 
-
+    private fun NotificationStatus(status:String){
+        val sharedPreferences = getSharedPreferences("mypref", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.apply{
+            putString("status",status)
+            apply()
+        }
+    }
     private fun update(key: String):Int{
         val sp = getSharedPreferences("mypref", Context.MODE_PRIVATE)
         return sp.getInt(key, 3)
     }
-
-
 }
+
