@@ -9,6 +9,7 @@ import android.widget.DatePicker
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.covid_19tracker.LocalStorage.StateRoomDatabase
 import com.example.covid_19tracker.R
 import com.example.covid_19tracker.adapter.VaccineCenterAdapter
 import com.example.covid_19tracker.adapter.postAdapter
@@ -39,7 +40,7 @@ class VaccineCentreActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vaccine_centre)
 
-        val repository = repository()
+        val repository = repository(StateRoomDatabase.getDatabaseInstance(this))
         val viewModelFactory = ViewmodelProviderFactory(application,repository)
         viewModel = ViewModelProvider(this,viewModelFactory).get(Viewmodel::class.java)
         searchbtncentre.setOnClickListener {

@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.covid_19tracker.Response
+import com.example.covid_19tracker.StatewiseItem
 import com.example.covid_19tracker.model.VaccineCentre
 import com.example.covid_19tracker.status
 import kotlinx.coroutines.Dispatchers
@@ -18,9 +19,9 @@ import kotlinx.coroutines.launch
 
 class Viewmodel(app:Application,private val repository: repository):AndroidViewModel(app) {
     val VaccineData : MutableLiveData<VaccineCentre> = MutableLiveData()
-    val StateData : MutableLiveData<Response> = MutableLiveData()
+   // val StateData : MutableLiveData<Response> = MutableLiveData()
     init {
-        getStateData()
+        //getStateData()
     }
 
     fun getVaccineData(pincode:String,date:String){
@@ -45,7 +46,11 @@ class Viewmodel(app:Application,private val repository: repository):AndroidViewM
             try {
                 if(hasInternetConnection()){
                     val response = repository.getStateData()
-                    StateData.postValue(response)
+                    val statelist = response.statewise
+                    if(getStateData()==null)
+                    saveStateData(statelist)
+                    else updatedata(statelist)
+                    //StateData.postValue(response)
                 }
                 else{
                      launch(Dispatchers.Main) {
@@ -56,6 +61,18 @@ class Viewmodel(app:Application,private val repository: repository):AndroidViewM
 
             }
 
+        }
+    }
+    fun getsavedStatedata() = repository.getStateRoomData()
+
+    fun saveStateData(stateData:List<StatewiseItem>){
+        viewModelScope.launch {
+            repository.upsert(stateData)
+        }
+    }
+    fun updatedata(stateData: List<StatewiseItem>){
+        viewModelScope.launch {
+            repository.update(stateData)
         }
     }
     private fun hasInternetConnection():Boolean {
@@ -84,4 +101,5 @@ class Viewmodel(app:Application,private val repository: repository):AndroidViewM
         }
         return false
     }
+
 }

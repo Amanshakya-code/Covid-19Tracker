@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.covid_19tracker.LocalStorage.StateRoomDatabase
 import com.example.covid_19tracker.mvvm.Viewmodel
 import com.example.covid_19tracker.mvvm.ViewmodelProviderFactory
 import com.example.covid_19tracker.mvvm.repository
@@ -28,15 +29,17 @@ class status : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_status)
         //list.addHeaderView(LayoutInflater.from(this).inflate(R.layout.list_header,list,false))
-        val repository = repository()
+        val repository = repository(StateRoomDatabase.getDatabaseInstance(this))
         val viewModelFactory = ViewmodelProviderFactory(application,repository)
         viewModel = ViewModelProvider(this,viewModelFactory).get(Viewmodel::class.java)
-        viewModel.StateData.observe(this, androidx.lifecycle.Observer {
-            val list = it.statewise
+        viewModel.getsavedStatedata().observe(this, androidx.lifecycle.Observer {
             listofstatebtn.isEnabled = true
-            bindCombineData(list.get(0))
-            bindgraph(list.subList(1, list.size))
+            try {
+                bindCombineData(it.get(0))
+                bindgraph(it.subList(1, it.size))
+            }catch (e:Exception){
 
+            }
         })
         listofstatebtn.setOnClickListener {
             val intent = Intent(this, ListOfState::class.java)
