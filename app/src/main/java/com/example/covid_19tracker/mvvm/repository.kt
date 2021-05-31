@@ -18,7 +18,5 @@ class repository (val db:StateRoomDatabase){
     suspend fun upsert(statedata:List<StatewiseItem>) {
         db.getStateDao().upsert(statedata)
     }
-    suspend fun update(statedata: List<StatewiseItem>){
-        db.getStateDao().updateStateList(statedata)
-    }
+
 }

@@ -36,9 +36,10 @@ class status : AppCompatActivity() {
             listofstatebtn.isEnabled = true
             try {
                 bindCombineData(it.get(0))
+
                 bindgraph(it.subList(1, it.size))
             }catch (e:Exception){
-
+                Toast.makeText(this,"Please Wait We are Fetching the data for you",Toast.LENGTH_SHORT).show()
             }
         })
         listofstatebtn.setOnClickListener {

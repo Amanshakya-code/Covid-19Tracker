@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.covid_19tracker.StatewiseItem
 
-@Database(entities = [StatewiseItem::class],version = 7,exportSchema = false)
+@Database(entities = [StatewiseItem::class],version = 9,exportSchema = false)
 abstract class StateRoomDatabase:RoomDatabase() {
     abstract fun getStateDao(): StateDAO
     companion object{

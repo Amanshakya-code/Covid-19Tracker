@@ -10,6 +10,4 @@ interface StateDAO {
     suspend fun upsert(statedata:List<StatewiseItem>)
     @Query("SELECT * FROM stateData")
     fun getallStatedata():LiveData<List<StatewiseItem>>
-    @Update()
-    suspend fun updateStateList(statedata: List<StatewiseItem>)
 }

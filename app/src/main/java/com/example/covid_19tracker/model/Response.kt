@@ -2,12 +2,13 @@ package com.example.covid_19tracker
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 data class Response(
     val statewise: List<StatewiseItem>
 )
-@Entity(tableName = "stateData")
+@Entity(tableName = "stateData", indices = [Index(value = ["state"], unique = true)])
 data class StatewiseItem(
     @PrimaryKey(autoGenerate = false)
     val id:Int? = null,

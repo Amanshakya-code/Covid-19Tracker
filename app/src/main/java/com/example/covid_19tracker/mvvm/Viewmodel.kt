@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -19,9 +20,9 @@ import kotlinx.coroutines.launch
 
 class Viewmodel(app:Application,private val repository: repository):AndroidViewModel(app) {
     val VaccineData : MutableLiveData<VaccineCentre> = MutableLiveData()
-   // val StateData : MutableLiveData<Response> = MutableLiveData()
+   //val StateData : MutableLiveData<Response> = MutableLiveData()
     init {
-        //getStateData()
+        getStateData()
     }
 
     fun getVaccineData(pincode:String,date:String){
@@ -47,10 +48,7 @@ class Viewmodel(app:Application,private val repository: repository):AndroidViewM
                 if(hasInternetConnection()){
                     val response = repository.getStateData()
                     val statelist = response.statewise
-                    if(getStateData()==null)
                     saveStateData(statelist)
-                    else updatedata(statelist)
-                    //StateData.postValue(response)
                 }
                 else{
                      launch(Dispatchers.Main) {
@@ -68,11 +66,6 @@ class Viewmodel(app:Application,private val repository: repository):AndroidViewM
     fun saveStateData(stateData:List<StatewiseItem>){
         viewModelScope.launch {
             repository.upsert(stateData)
-        }
-    }
-    fun updatedata(stateData: List<StatewiseItem>){
-        viewModelScope.launch {
-            repository.update(stateData)
         }
     }
     private fun hasInternetConnection():Boolean {
