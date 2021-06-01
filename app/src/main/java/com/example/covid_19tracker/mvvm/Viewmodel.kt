@@ -33,7 +33,7 @@ class Viewmodel(app:Application,private val repository: repository):AndroidViewM
                     VaccineData.postValue(response)
                 }else{
                      launch(Dispatchers.Main) {
-                         Toast.makeText(getApplication<applicationClass>(),"PLease check your internet",Toast.LENGTH_LONG).show()
+                         Toast.makeText(getApplication<applicationClass>(),"Please check your internet",Toast.LENGTH_LONG).show()
                      }
                 }
             }catch (e:Exception){

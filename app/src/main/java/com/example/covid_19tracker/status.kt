@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +26,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 class status : AppCompatActivity() {
     lateinit var viewModel: Viewmodel
+    var counter = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_status)
@@ -74,6 +76,7 @@ class status : AppCompatActivity() {
 
 
     private fun bindCombineData(data: StatewiseItem){
+        counter++
         val lastUpdateTime = data.lastupdatedtime
         val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:SS")
         lastUpdated.text = "Last Updated\n ${getTime(simpleDateFormat.parse(lastUpdateTime))}"
@@ -81,35 +84,39 @@ class status : AppCompatActivity() {
         recoveredTv.text = data.recovered
         activeTv.text = data.active
         deceasedTv.text = data.deaths
-        piechart.addPieSlice(data.confirmed?.let {
-            PieModel(
-                "Confirm", it.toFloat(), resources.getColor(
-                    R.color.red
+
+        Log.i("normalTag","called")
+        if(counter==2) {
+            piechart.addPieSlice(data.confirmed?.let {
+                PieModel(
+                    "Confirm", it.toFloat(), resources.getColor(
+                        R.color.red
+                    )
                 )
-            )
-        })
-        piechart.addPieSlice(data.active?.let {
-            PieModel(
-                "Active", it.toFloat(), resources.getColor(
-                    R.color.blue
+            })
+            piechart.addPieSlice(data.active?.let {
+                PieModel(
+                    "Active", it.toFloat(), resources.getColor(
+                        R.color.blue
+                    )
                 )
-            )
-        })
-        piechart.addPieSlice(data.recovered?.let {
-            PieModel(
-                "Recovered", it.toFloat(), resources.getColor(
-                    R.color.green
+            })
+            piechart.addPieSlice(data.recovered?.let {
+                PieModel(
+                    "Recovered", it.toFloat(), resources.getColor(
+                        R.color.green
+                    )
                 )
-            )
-        })
-        piechart.addPieSlice(data.deaths?.let {
-            PieModel(
-                "Deceased", it.toFloat(), resources.getColor(
-                    R.color.yellow
+            })
+            piechart.addPieSlice(data.deaths?.let {
+                PieModel(
+                    "Deceased", it.toFloat(), resources.getColor(
+                        R.color.yellow
+                    )
                 )
-            )
-        })
-        piechart.startAnimation()
+            })
+            piechart.startAnimation()
+        }
     }
     fun getTime(past: Date):String
     {
