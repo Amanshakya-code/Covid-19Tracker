@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.covid_19tracker.LocalStorage.StateRoomDatabase
 import com.example.covid_19tracker.mvvm.Viewmodel
 import com.example.covid_19tracker.mvvm.ViewmodelProviderFactory
+import com.example.covid_19tracker.mvvm.applicationClass
 import com.example.covid_19tracker.mvvm.repository
 import com.example.covid_19tracker.notification.Constant.Companion.chnageList
 import com.example.covid_19tracker.vaccination.RetrofitVaccineInstance
@@ -86,7 +87,7 @@ class status : AppCompatActivity() {
         deceasedTv.text = data.deaths
 
         Log.i("normalTag","called")
-        if(counter==2) {
+        if((hasInternetConnection()==true&&counter==2)||(hasInternetConnection()==false&&counter==1)) {
             piechart.addPieSlice(data.confirmed?.let {
                 PieModel(
                     "Confirm", it.toFloat(), resources.getColor(
@@ -139,5 +140,31 @@ class status : AppCompatActivity() {
                 SimpleDateFormat("dd/MM/yy, hh:mm a").format(past).toString()
             }
         }
+    }
+    private fun hasInternetConnection():Boolean {
+        val connectivityManager = getApplication().getSystemService(
+            Context.CONNECTIVITY_SERVICE
+        ) as ConnectivityManager
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            val activeNetwork = connectivityManager.activeNetwork?: return false
+            val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork)?:return false
+            return when{
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)->true
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)->true
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)->true
+                else -> false
+            }
+        }else{
+            connectivityManager.activeNetworkInfo?.run {
+                return when(type){
+                    ConnectivityManager.TYPE_WIFI -> true
+                    ConnectivityManager.TYPE_MOBILE -> true
+                    ConnectivityManager.TYPE_ETHERNET -> true
+                    else -> false
+                }
+            }
+        }
+        return false
     }
 }
