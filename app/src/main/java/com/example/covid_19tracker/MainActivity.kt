@@ -87,11 +87,10 @@ class MainActivity : AppCompatActivity() {
                     when(array[which]){
                         "On" -> {
                             NotificationStatus(array[which])
-                            Toast.makeText(application,"on",Toast.LENGTH_SHORT).show()
                         }
                         "Off" ->{
                             NotificationStatus(array[which])
-                            Toast.makeText(application,"off",Toast.LENGTH_SHORT).show()}
+                        }
                     }
                 }
             })
