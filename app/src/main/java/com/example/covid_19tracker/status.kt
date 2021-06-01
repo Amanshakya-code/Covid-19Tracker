@@ -87,37 +87,36 @@ class status : AppCompatActivity() {
         deceasedTv.text = data.deaths
 
         Log.i("normalTag","called")
-        if((hasInternetConnection()==true&&counter==2)||(hasInternetConnection()==false&&counter==1)) {
-            piechart.addPieSlice(data.confirmed?.let {
-                PieModel(
-                    "Confirm", it.toFloat(), resources.getColor(
-                        R.color.red
-                    )
+       piechart.clearChart()
+        piechart.addPieSlice(data.confirmed?.let {
+            PieModel(
+                "Confirm", it.toFloat(), resources.getColor(
+                    R.color.red
                 )
-            })
-            piechart.addPieSlice(data.active?.let {
-                PieModel(
-                    "Active", it.toFloat(), resources.getColor(
-                        R.color.blue
-                    )
+            )
+        })
+        piechart.addPieSlice(data.active?.let {
+            PieModel(
+                "Active", it.toFloat(), resources.getColor(
+                    R.color.blue
                 )
-            })
-            piechart.addPieSlice(data.recovered?.let {
-                PieModel(
-                    "Recovered", it.toFloat(), resources.getColor(
-                        R.color.green
-                    )
+            )
+        })
+        piechart.addPieSlice(data.recovered?.let {
+            PieModel(
+                "Recovered", it.toFloat(), resources.getColor(
+                    R.color.green
                 )
-            })
-            piechart.addPieSlice(data.deaths?.let {
-                PieModel(
-                    "Deceased", it.toFloat(), resources.getColor(
-                        R.color.yellow
-                    )
+            )
+        })
+        piechart.addPieSlice(data.deaths?.let {
+            PieModel(
+                "Deceased", it.toFloat(), resources.getColor(
+                    R.color.yellow
                 )
-            })
-            piechart.startAnimation()
-        }
+            )
+        })
+        piechart.startAnimation()
     }
     fun getTime(past: Date):String
     {
